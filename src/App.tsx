@@ -1,5 +1,6 @@
 import './global.css';
-import { Header } from './Components/Header'
+import { Header } from './components/Header'
+import { Task } from './components/Task'
 
 import  clipboard  from './assets/clipboard.svg'
 import styles from './App.module.css'
@@ -27,11 +28,11 @@ function App() {
             <strong>Você ainda não tem tarefas cadastradas</strong>
             <span>Crie tarefas e organize seus itens a fazer</span>
           </div> */}
-          <div>
-            <input type='checkbox' />
-            <label>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum provident labore omnis earum eaque, nihil ut est ullam, repellat fuga praesentium deleniti eum corporis et cupiditate laborum maiores pariatur quidem.</label>
-            <button title='Deletar Tarefa'>Deletar</button>
-          </div>
+          <Task />
+          <Task />
+          <Task />
+          <Task />
+          <Task />
         </div>
       </div>
     </>
