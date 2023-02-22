@@ -3,13 +3,14 @@ import { Trash, Check } from 'phosphor-react'
 import { useState } from "react"
 
 interface TaskProps {
-  id: number,
-  content: string,
+  id: number
+  content: string
   isChecked: boolean
-  toggleIsChecked: (id: number) => void
+  handleToggleIsChecked: (id: number) => void
+  handleDeleteTask: (id: number) => void
 } 
 
-export function Task ({id, isChecked, content, toggleIsChecked}:TaskProps) {
+export function Task ({id, isChecked, content, handleToggleIsChecked, handleDeleteTask}:TaskProps) {
 
 
   return (
@@ -18,7 +19,7 @@ export function Task ({id, isChecked, content, toggleIsChecked}:TaskProps) {
         <input 
         type='checkbox' 
         onChange={() => {
-          toggleIsChecked(id);
+          handleToggleIsChecked(id);
         }}
         />
         <span 
@@ -31,7 +32,12 @@ export function Task ({id, isChecked, content, toggleIsChecked}:TaskProps) {
           {content}
         </p>
       </label>
-      <button title='Deletar Tarefa'><Trash /></button>
+      <button
+        onClick={() => handleDeleteTask(id)}
+        title='Deletar Tarefa'
+      >
+        <Trash />
+      </button>
     </div>
   )
 }

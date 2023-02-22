@@ -45,6 +45,13 @@ export function TaskList () {
     setNewTaskContent('')
   }
 
+  function deleteTask(id: number) {
+    const TaskListWithDeletedOne = taskList.filter((task) => {
+     return task.id !== id
+    })
+    setTaskList(TaskListWithDeletedOne)
+  }
+
   useEffect (() => {
     let taskList = localStorage.getItem('TaskList') || '[]'
     let taskListObject = JSON.parse(taskList)
@@ -92,7 +99,8 @@ export function TaskList () {
                     id={task.id}
                     content={task.content}
                     isChecked={task.isChecked}
-                    toggleIsChecked={toggleIsChecked}
+                    handleToggleIsChecked={toggleIsChecked}
+                    handleDeleteTask={deleteTask}
                   />
                 )
               })
