@@ -38,3 +38,18 @@ body, input, button, textarea {
   outline: transparent;
   box-shadow: 0 0 0 2px var(--purple-500);
 }
+
+/*Personalização de scrowbar*/
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--gray-400);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--gray-300);
+  border-radius: 4px;
+}
