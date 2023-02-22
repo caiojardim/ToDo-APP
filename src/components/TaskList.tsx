@@ -15,6 +15,7 @@ interface TaskType {
 export function TaskList () {
   const [taskList, setTaskList] = useState<TaskType[]>([])
   const [newTaskContent, setNewTaskContent] = useState('')
+  const [completedTaskCount, setCompletedTaskCount] = useState(0)
 
   function toggleIsChecked(id: number) {
     const updatedTaskList = taskList.map ((task) => {
@@ -25,6 +26,23 @@ export function TaskList () {
       return task
     })
     setTaskList(updatedTaskList)
+  }
+
+  function deleteTask(id: number) {
+    const TaskListWithDeletedOne = taskList.filter((task) => {
+     return task.id !== id
+    })
+    setTaskList(TaskListWithDeletedOne)
+  }
+
+  function countCompletedTasks() {
+    let count = 0
+    for (let task of taskList) {
+      if (task.isChecked) {
+        count += 1
+      }
+    }
+    setCompletedTaskCount(count)
   }
 
   function handleNewTaskChange (event: ChangeEvent<HTMLInputElement>) {
@@ -45,12 +63,7 @@ export function TaskList () {
     setNewTaskContent('')
   }
 
-  function deleteTask(id: number) {
-    const TaskListWithDeletedOne = taskList.filter((task) => {
-     return task.id !== id
-    })
-    setTaskList(TaskListWithDeletedOne)
-  }
+  
 
   useEffect (() => {
     let taskList = localStorage.getItem('TaskList') || '[]'
@@ -61,7 +74,8 @@ export function TaskList () {
   useEffect (() => {
     if (taskList.length !== 0) {
       localStorage.setItem('TaskList', JSON.stringify(taskList))
-    }   
+    } 
+    countCompletedTasks()  
   }, [taskList])
 
  
@@ -83,8 +97,8 @@ export function TaskList () {
         
 
         <div className={styles.taskStatus}>
-          <strong className={styles.colorBlue}>Tarefas criadas <span>5</span></strong>
-          <strong className={styles.colorPurple}>Concluídas <span>2 de 5</span></strong>
+          <strong className={styles.colorBlue}>Tarefas criadas <span>{taskList.length}</span></strong>
+          <strong className={styles.colorPurple}>Concluídas <span>{completedTaskCount} de {taskList.length}</span></strong>
         </div>
 
         <div className={styles.tasks}>
