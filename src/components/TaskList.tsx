@@ -2,6 +2,7 @@ import styles from './TaskList.module.css'
 import  clipboard  from '../assets/clipboard.svg'
 import { PlusCircle } from 'phosphor-react';
 import { useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 
 import { Task } from './Task'
 
@@ -13,6 +14,7 @@ interface TaskType {
 
 export function TaskList () {
   const [taskList, setTaskList] = useState<TaskType[]>([])
+  const [newTaskContent, setNewTaskContent] = useState('')
 
   function toggleIsChecked(id: number) {
     const updatedTaskList = taskList.map ((task) => {
@@ -23,6 +25,23 @@ export function TaskList () {
       return task
     })
     setTaskList(updatedTaskList)
+  }
+
+  function handleNewTaskChange (event: ChangeEvent<HTMLInputElement>) {
+    setNewTaskContent(event.target.value)
+  }
+
+  function handleCreateNewTask (event: FormEvent) {
+    event.preventDefault()
+    const taskListWithNewOne = [...taskList,
+      {
+        id: taskList[taskList.length -1].id + 1,
+        content: newTaskContent,
+        isChecked: false
+      }
+    ]
+    setTaskList(taskListWithNewOne)
+    setNewTaskContent('')
   }
 
   useEffect (() => {
@@ -43,11 +62,19 @@ export function TaskList () {
 
   return (
     <div className={styles.taskListContainer}>
-
-        <div className={styles.newTask}>
-          <input type="text" placeholder='Adicione uma nova tarefa' />
-          <button>Criar <PlusCircle/></button>
-        </div>
+        <form onSubmit={handleCreateNewTask}>
+          <div className={styles.newTask}>
+            <input 
+              type="text" 
+              placeholder='Adicione uma nova tarefa' 
+              value={newTaskContent}
+              onChange={handleNewTaskChange}
+              required
+            />
+            <button type='submit'>Criar <PlusCircle/></button>
+          </div>
+        </form>
+        
 
         <div className={styles.taskStatus}>
           <strong className={styles.colorBlue}>Tarefas criadas <span>5</span></strong>
