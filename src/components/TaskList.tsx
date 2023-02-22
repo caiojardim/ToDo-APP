@@ -33,9 +33,10 @@ export function TaskList () {
 
   function handleCreateNewTask (event: FormEvent) {
     event.preventDefault()
+    const lastElementId = taskList.length === 0 ? 0 : taskList[taskList.length -1].id
     const taskListWithNewOne = [...taskList,
       {
-        id: taskList[taskList.length -1].id + 1,
+        id: lastElementId + 1,
         content: newTaskContent,
         isChecked: false
       }
@@ -50,15 +51,13 @@ export function TaskList () {
     setTaskList(taskListObject)
   }, [])
 
-  localStorage.setItem ('TaskList', JSON.stringify([
-    {
-      id:1,
-      content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-      isChecked: false
-    }
-  ]))
+  useEffect (() => {
+    if (taskList.length !== 0) {
+      localStorage.setItem('TaskList', JSON.stringify(taskList))
+    }   
+  }, [taskList])
 
-  
+ 
 
   return (
     <div className={styles.taskListContainer}>
