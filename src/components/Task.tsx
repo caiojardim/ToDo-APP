@@ -2,8 +2,15 @@ import styles from './Task.module.css'
 import { Trash, Check } from 'phosphor-react'
 import { useState } from "react"
 
-export function Task () {
-  const [isChecked, setIsChecked] = useState(false)
+interface TaskProps {
+  id: number,
+  content: string,
+  isChecked: boolean
+  toggleIsChecked: (id: number) => void
+} 
+
+export function Task ({id, isChecked, content, toggleIsChecked}:TaskProps) {
+
 
   return (
     <div className={styles.task}>
@@ -11,7 +18,7 @@ export function Task () {
         <input 
         type='checkbox' 
         onChange={() => {
-          setIsChecked(!isChecked);
+          toggleIsChecked(id);
         }}
         />
         <span 
@@ -21,7 +28,7 @@ export function Task () {
           < Check weight='bold' />
         </span>
         <p className={`${isChecked ? styles.taskCompleted : ''}`}>
-          Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer. 
+          {content}
         </p>
       </label>
       <button title='Deletar Tarefa'><Trash /></button>

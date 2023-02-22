@@ -14,6 +14,17 @@ interface TaskType {
 export function TaskList () {
   const [taskList, setTaskList] = useState<TaskType[]>([])
 
+  function toggleIsChecked(id: number) {
+    const updatedTaskList = taskList.map ((task) => {
+      if (task.id === id) {
+        let newTask = {...task, isChecked: !task.isChecked}
+        return (newTask)
+      } 
+      return task
+    })
+    setTaskList(updatedTaskList)
+  }
+
   useEffect (() => {
     let taskList = localStorage.getItem('TaskList') || '[]'
     let taskListObject = JSON.parse(taskList)
@@ -46,11 +57,20 @@ export function TaskList () {
         <div className={styles.tasks}>
           
           {
-            (taskList.length !== 0 ) ?       
+            (taskList.length !== 0 ) 
+            ?       
               taskList.map ((task) => {
-                return <Task key={task.id} />
+                return (
+                  <Task 
+                    key={task.id} 
+                    id={task.id}
+                    content={task.content}
+                    isChecked={task.isChecked}
+                    toggleIsChecked={toggleIsChecked}
+                  />
+                )
               })
-              : 
+            : 
               <div className={styles.withoutTasks}>
                 <img src={clipboard} alt="Clipboard Icon" />
                 <strong>Você ainda não tem tarefas cadastradas</strong>
